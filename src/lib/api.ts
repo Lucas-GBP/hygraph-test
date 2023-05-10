@@ -1,11 +1,11 @@
-import { GraphQLClient } from 'graphql-request';
+import { GraphQLClient } from "graphql-request";
 
 const hygraph = new GraphQLClient(
-    'https://api-eu-central-1.hygraph.com/v2/ck8sn5tnf01gc01z89dbc7s0o/master'
+  "https://api-eu-central-1.hygraph.com/v2/ck8sn5tnf01gc01z89dbc7s0o/master"
 );
 
 export async function serverRes() {
-    return await hygraph.request(`{
+  return await hygraph.request(`{
       products {
         slug
         name
@@ -13,29 +13,38 @@ export async function serverRes() {
     }`);
 }
 
-export async function getAllPostsIndex(){
-    const { products }:{products:{slug:string, name:string}[]} = await hygraph.request(`{
+export async function getAllPostsIndex() {
+  const { products }: { products: { slug: string; name: string }[] } =
+    await hygraph.request(`{
       products {
         slug
         name
       }
     }`);
 
-    return products;
+  return products;
 }
 
 export async function getAllSlugs() {
-    const {products}:{products:{slug:string}[]} = await hygraph.request(`{
+  const { products }: { products: { slug: string }[] } =
+    await hygraph.request(`{
       products {
         slug
       }
     }`);
-    
-    return products.map((item)=>{return item.slug});
+
+  return products.map((item) => {
+    return item.slug;
+  });
 }
 
-export async function getPostBySlug(slug:string){
-    const { product }:{product:{name:string, content:{markdown:string}, price:string}} = await hygraph.request(`
+export async function getPostBySlug(slug: string) {
+  const {
+    product,
+  }: {
+    product: { name: string; content: { markdown: string }; price: string };
+  } = await hygraph.request(
+    `
         query ProductPageQuery($slug: String!) {
           product(where: { slug: $slug }) {
             name
@@ -45,10 +54,10 @@ export async function getPostBySlug(slug:string){
             price
           }
         }`,
-        {
-          slug: slug,
-        }
-    );
+    {
+      slug: slug,
+    }
+  );
 
-    return product
+  return product;
 }

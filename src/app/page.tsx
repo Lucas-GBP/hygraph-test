@@ -5,5 +5,5 @@ export default function Home() {
     <main className="">
       <Link href="/blog">Blog page</Link>
     </main>
-  )
+  );
 }
