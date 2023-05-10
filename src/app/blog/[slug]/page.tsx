@@ -12,9 +12,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <main>
-      name: {data.name}
-      <br />
-      price: {data.price}
+      title: {data.name}
       <br />
       content: {data.content.markdown}
       <br />

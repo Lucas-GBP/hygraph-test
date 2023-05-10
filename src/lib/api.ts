@@ -1,12 +1,12 @@
 import { GraphQLClient } from "graphql-request";
 
 const hygraph = new GraphQLClient(
-  "https://api-eu-central-1.hygraph.com/v2/ck8sn5tnf01gc01z89dbc7s0o/master"
+  "https://api-sa-east-1.hygraph.com/v2/clhfacptn0ezq01uf66za6dy7/master"
 );
 
 export async function serverRes() {
   return await hygraph.request(`{
-      products {
+    Post {
         slug
         name
       }
@@ -14,44 +14,42 @@ export async function serverRes() {
 }
 
 export async function getAllPostsIndex() {
-  const { products }: { products: { slug: string; name: string }[] } =
+  const { Post }: { Post: { slug: string; title: string }[] } =
     await hygraph.request(`{
-      products {
+      Post {
         slug
-        name
+        title
       }
     }`);
 
-  return products;
+  return Post;
 }
 
 export async function getAllSlugs() {
-  const { products }: { products: { slug: string }[] } =
-    await hygraph.request(`{
-      products {
+  const { Post }: { Post: { slug: string }[] } = await hygraph.request(`{
+    Post {
         slug
       }
     }`);
 
-  return products.map((item) => {
+  return Post.map((item) => {
     return item.slug;
   });
 }
 
 export async function getPostBySlug(slug: string) {
   const {
-    product,
+    Post,
   }: {
-    product: { name: string; content: { markdown: string }; price: string };
+    Post: { title: string; content: { markdown: string } };
   } = await hygraph.request(
     `
         query ProductPageQuery($slug: String!) {
-          product(where: { slug: $slug }) {
-            name
+          Post(where: { slug: $slug }) {
+            title
             content {
               markdown
             }
-            price
           }
         }`,
     {
@@ -59,5 +57,5 @@ export async function getPostBySlug(slug: string) {
     }
   );
 
-  return product;
+  return Post;
 }

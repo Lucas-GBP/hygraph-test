@@ -12,10 +12,10 @@ export default async function Page() {
   return (
     <main>
       <ul>
-        {products.map(({ slug, name }, index) => {
+        {products.map(({ slug, title }, index) => {
           return (
             <li key={index}>
-              <Link href={`/blog/${slug}`}>{name}</Link>
+              <Link href={`/blog/${slug}`}>{title}</Link>
             </li>
           );
         })}
